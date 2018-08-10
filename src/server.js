@@ -10,8 +10,6 @@ const app = express();
 // logging requests to the console
 app.use(morgan('dev'));
 
-const passportAuth = passport.authenticate('basic', {session: false});
-
 // auth
 passport.use(new BasicStrategy(
   (username, password, authDone) => {
@@ -23,9 +21,11 @@ passport.use(new BasicStrategy(
   },
 ));
 
-// express server
+// setting-up express and mebo to use passport
 app.use(passport.initialize());
-Mebo.Handler.get('web').addBeforeAuthAction(passportAuth);
+Mebo.Handler.get('web').addBeforeAuthAction(passport.authenticate('basic', {session: false}));
+
+// enabling restful support in mebo
 Mebo.Handler.get('web').restful(app, '/api');
 
 app.get('/', function (req, res) {
