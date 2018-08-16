@@ -9,8 +9,8 @@ class Sum  extends Mebo.Action{
     this.createInput('b: numeric');
   }
 
-  _perform(data){
-    return Promise.resolve(data.a + data.b);
+  async _perform(data){
+    return data.a + data.b;
   }
 }
 
